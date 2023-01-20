@@ -2,6 +2,7 @@ package com.johanapp.ecommerce.controller;
 
 import java.lang.StackWalker.Option;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class HomeController {
 		return "usuario/home";
 	}
 	
+	// ver detalles del producto
 	@GetMapping("productohome/{id}") //gracias a pathvariable nos pasa el parametro id al getmapping
 	public String productoHome(@PathVariable Integer id, Model model) { // el objeto model lleva informacion del backend hasta la vista
 		log.info("Id enviado como parametro {}",id);
@@ -53,6 +55,8 @@ public class HomeController {
 		model.addAttribute("producto",producto); // enviar datos desde la db a la vista
 		return "usuario/productohome";
 	}
+	
+	// agregar producto al carrito
 	
 	@PostMapping("/cart")
 	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
@@ -71,6 +75,32 @@ public class HomeController {
 		detallerOrden.setProducto(producto);// este es para capturar la llave foranea
 		
 		detalles.add(detallerOrden);
+		
+		sumaTotal = detalles.stream().mapToDouble(dt ->dt.getTotal()).sum(); // suma el total de los productos que estan en el array list
+		orden.setTotal(sumaTotal);
+		model.addAttribute("cart",detalles);
+		model.addAttribute("orden",orden);
+		return "usuario/carrito";
+	}
+	
+	//remover producto del carrito
+	
+	@GetMapping("/delete/cart/{id}")
+	public String RemoveProductCart(@PathVariable Integer id, Model model) {
+		
+		//lista nueva de productos
+		List<DetalleOrden> ordenesNueva = new ArrayList<DetalleOrden>();
+		
+		for(DetalleOrden detalleOrden: detalles) {
+			if(detalleOrden.getProducto().getId() !=id) {
+				ordenesNueva.add(detalleOrden);
+			}
+		}
+		
+		// Poner la nueva lista con los productos restantes
+		detalles=ordenesNueva;
+		
+		double sumaTotal = 0;
 		
 		sumaTotal = detalles.stream().mapToDouble(dt ->dt.getTotal()).sum(); // suma el total de los productos que estan en el array list
 		orden.setTotal(sumaTotal);

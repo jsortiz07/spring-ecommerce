@@ -14,10 +14,10 @@
     <!-- Se incluyen librerias utilizando thymeleaf -->
 
   <!-- Bootstrap core CSS -->
-  <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
 </head>
 
@@ -58,11 +58,11 @@
               </thead>
               <tbody>
                 <tr th:each="dorden : ${cart}">
-                  <td th:text="${dorden.nombre}">Nombre</td>
-                  <td th:text="${dorden.precio}">Precio</td>
-                  <td th:text="${dorden.cantidad}">Cantidad</td>
-                  <td th:text="${dorden.total}">Total</td>
-                  <td><a href="#" class="btn btn-danger">Quitar</a></td>
+                  <td th:text="${dorden.nombre}"></td>
+                  <td th:text="${dorden.precio}"></td>
+                  <td th:text="${dorden.cantidad}"></td>
+                  <td th:text="${dorden.total}"></td>
+                  <td><a th:href="@{/delete/cart/{id} (id = ${dorden.producto.id})}" class="btn btn-danger">Quitar</a></td>
                 </tr>
               </tbody>
             </table>
@@ -87,8 +87,8 @@
 
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
   </body>
 
