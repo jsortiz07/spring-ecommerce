@@ -107,5 +107,7 @@ public class HomeController {
 		model.addAttribute("cart",detalles);
 		model.addAttribute("orden",orden);
 		return "usuario/carrito";
+		
+		//prueba commmit desde pc 2
 	}
 }
