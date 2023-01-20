@@ -55,15 +55,27 @@ public class HomeController {
 	}
 	
 	@PostMapping("/cart")
-	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad) {
+	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
 		DetalleOrden detallerOrden = new DetalleOrden();
 		Producto producto = new Producto();
 		double sumaTotal=0;
 		Optional<Producto> optionalProducto = productoservice.get(id);
 		log.info("Producto añadido: {}",optionalProducto.get());
 		log.info("Cantidad {}", cantidad);
+		producto = optionalProducto.get();
 		
+		detallerOrden.setCantidad(cantidad);
+		detallerOrden.setPrecio(producto.getPrecio());
+		detallerOrden.setNombre(producto.getNombre());
+		detallerOrden.setTotal(producto.getPrecio()*cantidad);
+		detallerOrden.setProducto(producto);// este es para capturar la llave foranea
 		
+		detalles.add(detallerOrden);
+		
+		sumaTotal = detalles.stream().mapToDouble(dt ->dt.getTotal()).sum(); // suma el total de los productos que estan en el array list
+		orden.setTotal(sumaTotal);
+		model.addAttribute("cart",detalles);
+		model.addAttribute("orden",orden);
 		return "usuario/carrito";
 	}
 }
