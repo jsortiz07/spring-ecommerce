@@ -1,8 +1,6 @@
 package com.johanapp.ecommerce.controller;
 
-import java.lang.StackWalker.Option;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +61,7 @@ public class HomeController {
 		DetalleOrden detallerOrden = new DetalleOrden();
 		Producto producto = new Producto();
 		double sumaTotal=0;
-		Optional<Producto> optionalProducto = productoservice.get(id);
+		Optional<Producto> optionalProducto = productoservice.get(id) ;
 		log.info("Producto añadido: {}",optionalProducto.get());
 		log.info("Cantidad {}", cantidad);
 		producto = optionalProducto.get();
@@ -74,7 +72,17 @@ public class HomeController {
 		detallerOrden.setTotal(producto.getPrecio()*cantidad);
 		detallerOrden.setProducto(producto);// este es para capturar la llave foranea
 		
-		detalles.add(detallerOrden);
+		// validar que el producto no se añada 2 veces
+		// Stream() Este nos permite realizar operaciones sobre la colección, como por ejemplo buscar, filtrar, reordenar, reducir, etc…
+		
+		
+		Integer idProducto = producto.getId();
+		boolean ingresado = detalles.stream().anyMatch(p -> p.getProducto().getId() == idProducto);
+		
+		if(!ingresado) {
+			detalles.add(detallerOrden);
+		}
+			
 		
 		sumaTotal = detalles.stream().mapToDouble(dt ->dt.getTotal()).sum(); // suma el total de los productos que estan en el array list
 		orden.setTotal(sumaTotal);
@@ -109,5 +117,13 @@ public class HomeController {
 		return "usuario/carrito";
 		
 		//prueba commmit desde pc 2
+	}
+	
+	@GetMapping("/getCart")
+	public String getCart(Model model) {
+		model.addAttribute("cart",detalles);
+		model.addAttribute("orden",orden);
+		
+		return "/usuario/carrito";
 	}
 }
