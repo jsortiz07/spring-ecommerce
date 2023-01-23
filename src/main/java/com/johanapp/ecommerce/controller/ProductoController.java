@@ -60,6 +60,7 @@ public class ProductoController {
 		return "redirect:/productos";
 	}
 
+	// ver valores del usuario al actualizar
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable Integer id, Model model) {
 		Producto producto = new Producto();
