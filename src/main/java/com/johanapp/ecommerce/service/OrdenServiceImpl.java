@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.johanapp.ecommerce.model.Orden;
+import com.johanapp.ecommerce.model.Usuario;
 import com.johanapp.ecommerce.repository.IOrdenRepository;
 
 @Service
@@ -55,6 +56,10 @@ public class OrdenServiceImpl implements IOrdenService {
 
 		}
 		return numeroConcatenado;
+	}
+
+	public List<Orden> findByUsuario(Usuario usuario) {
+		return ordenrepository.findByUsuario(usuario);
 	}
 
 }
