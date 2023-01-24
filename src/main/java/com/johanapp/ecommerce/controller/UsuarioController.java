@@ -60,7 +60,7 @@ public class UsuarioController {
 		//.out.println("este log si lo detecta"+user.get().toString());
 		
 		if (user.isPresent()) {
-			session.setAttribute("idusuario", user.get().getId());
+			session.setAttribute("idusuario", user.get().getId()); // la sesion se guarda en la variable idusuario y se puede utilizar en cualquier parte
 			if (user.get().getTipo().equals("ADMIN")) {
 				return "redirect:/administrador";
 				
