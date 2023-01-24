@@ -60,7 +60,7 @@ public class HomeController {
 		model.addAttribute("productos",productoservice.findAll());
 		
 		// Obtener session
-		model.addAttribute("session",session.getAttribute("idusuario"));
+		model.addAttribute("sesion",session.getAttribute("idusuario"));
 		
 		return "usuario/home";
 	}
@@ -148,7 +148,7 @@ public class HomeController {
 		model.addAttribute("orden",orden);
 		
 		//enviar sesion
-		model.addAttribute("session",session.getAttribute("idusuario"));
+		model.addAttribute("sesion",session.getAttribute("idusuario"));
 		
 		return "/usuario/carrito";
 	}
