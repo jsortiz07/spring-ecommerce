@@ -94,6 +94,7 @@ public class UsuarioController {
 		return "usuario/compras";
 	}
 	
+	// este metodo es para observar los detalles de cada compra realiza por el usuario logueado
 	@GetMapping("/detalle/{id}")
 	public String detalleCompra(@PathVariable Integer id, HttpSession session, Model model) {
 		
@@ -106,6 +107,13 @@ public class UsuarioController {
 		model.addAttribute("sesion",session.getAttribute("idusuario"));
 		
 		return "usuario/detallecompra";
+	}
+	
+	// este metodo se emplea para cerrar sesion
+	@GetMapping("/cerrar")
+	public String cerrarSesion(HttpSession session) {
+		session.removeAttribute("idusuario");
+		return "redirect:/";
 	}
 	
 }
